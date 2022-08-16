@@ -26,6 +26,5 @@ const sequelize = connect()
 init(sequelize)
 
 module.exports = {
-  sequelize,
-  ...sequelize.models
+  sequelize
 }

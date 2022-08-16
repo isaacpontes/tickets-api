@@ -31,7 +31,7 @@ module.exports = function (sequelize, DataTypes) {
   const Reposition = sequelize.define("Reposition", attributes)
 
   Reposition.associate = function (models) {
-    Reposition.belongsTo(models.Inventory)
+    Reposition.belongsTo(models.Inventory, { as: "inventory" })
   }
 
   return Reposition

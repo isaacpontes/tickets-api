@@ -25,9 +25,9 @@ module.exports = function (sequelize, DataTypes) {
   const Inventory = sequelize.define("Inventory", attributes)
 
   Inventory.associate = function (models) {
-    Inventory.belongsTo(models.Location)
-    Inventory.hasMany(models.Withdrawal)
-    Inventory.hasMany(models.Reposition)
+    Inventory.belongsTo(models.Location, { as: "location" })
+    Inventory.hasMany(models.Withdrawal, { as: "withdrawals" })
+    Inventory.hasMany(models.Reposition, { as: "repositions" })
   }
 
   return Inventory

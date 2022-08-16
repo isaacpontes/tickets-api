@@ -2,23 +2,35 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable("boards", {
+    await queryInterface.createTable("withdrawals", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
-      tickets: {
+      quantity: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0
+        allowNull: false
       },
-      locationId: {
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      first_ticket: {
+        type: Sequelize.STRING,
+      },
+      last_ticket: {
+        type: Sequelize.STRING
+      },
+      observations: {
+        type: Sequelize.STRING
+      },
+      inventory_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "locations",
+          model: "inventories",
           key: "id"
         },
         onDelete: "RESTRICT"
@@ -35,6 +47,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable("boards")
+    await queryInterface.dropTable("withdrawals")
   }
 };

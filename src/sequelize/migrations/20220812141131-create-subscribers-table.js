@@ -2,35 +2,32 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable("withdrawals", {
+    await queryInterface.createTable("subscribers", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
-      quantity: {
-        type: Sequelize.INTEGER,
+      name: {
+        type: Sequelize.STRING,
         allowNull: false
       },
-      date: {
+      birthday: {
         type: Sequelize.DATE,
         allowNull: false
       },
-      first_ticket: {
+      document: {
         type: Sequelize.STRING,
       },
-      last_ticket: {
-        type: Sequelize.STRING
+      is_updated: {
+        type: Sequelize.BOOLEAN,
       },
-      observations: {
-        type: Sequelize.STRING
-      },
-      inventoryId: {
+      location_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "inventories",
+          model: "locations",
           key: "id"
         },
         onDelete: "RESTRICT"
@@ -47,6 +44,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable("withdrawals")
+    await queryInterface.dropTable("subscribers")
   }
 };

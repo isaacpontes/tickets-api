@@ -1,22 +1,31 @@
-const { Location } = require("../database")
+const LocationPostgreRepository = require("../repositories/LocationPostgreRepository")
+const GetLocations = require("../services/GetLocations")
+const CreateLocation = require("../services/CreateLocation")
+const InventoryPostgreRepository = require("../repositories/InventoryPostgreRepository")
+const BoardPostgreRepository = require("../repositories/BoardPostgreRepository")
 
 module.exports = {
-  async getAll(req, res) {
+  async index(req, res) {
     try {
-      const locations = await Location.findAll()
+      const locationPostgreRepository = new LocationPostgreRepository()
+      const getLocations = new GetLocations(locationPostgreRepository)
+      const locations = await getLocations.execute()
       return res.json(locations)
     } catch (err) {
-      return res.status(400).json({ message: error.message })
+      return res.status(400).json({ message: err.message })
     }
   },
 
   async store(req, res) {
-    const { name } = req.body
     try {
-      const location = await Location.create({ name })
-      return res.status(201).json(location)
-    } catch (error) {
-      return res.status(400).json({ message: error.message })
+      const locationPostgreRepository = new LocationPostgreRepository()
+      const inventoryPostgreRepository = new InventoryPostgreRepository()
+      const boardPostgreRepository = new BoardPostgreRepository()
+      const createLocation = new CreateLocation(locationPostgreRepository, inventoryPostgreRepository, boardPostgreRepository)
+      const result = await createLocation.execute(req.body.name)
+      return res.status(201).json(result)
+    } catch (err) {
+      return res.status(400).json({ message: err.message })
     }
   }
 }

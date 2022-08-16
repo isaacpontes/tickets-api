@@ -5,7 +5,8 @@
   "main": "./src/server.js",
   "scripts": {
     "dev": "nodemon start",
-    "start": "node ./src/server.js"
+    "start": "node ./src/server.js",
+    "test": "jest --watch-all"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "sequelize": "^6.21.3"
   },
   "devDependencies": {
+    "jest": "^28.1.3",
     "nodemon": "^2.0.19",
     "sequelize-cli": "^6.4.1"
   }

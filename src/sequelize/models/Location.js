@@ -15,9 +15,9 @@ module.exports = function (sequelize, DataTypes) {
   const Location = sequelize.define("Location", attributes)
 
   Location.associate = function (models) {
-    Location.hasMany(models.Inventory)
-    Location.hasMany(models.Subscriber)
-    Location.hasMany(models.Board)
+    Location.hasOne(models.Inventory, { as: "inventory", foreignKey: "id" })
+    Location.hasMany(models.Subscriber, { as: "subscribers" })
+    Location.hasOne(models.Board, { as: "board", foreignKey: "id" })
   }
 
   return Location

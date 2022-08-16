@@ -34,8 +34,8 @@ module.exports = function (sequelize, DataTypes) {
   const Subscriber = sequelize.define("Subscriber", attributes)
 
   Subscriber.associate = function (models) {
-    Subscriber.belongsTo(models.Location)
-    Subscriber.hasMany(models.TicketRequest)
+    Subscriber.belongsTo(models.Location, { as: "location" })
+    Subscriber.hasMany(models.TicketRequest, { as: "ticketRequests" })
   }
 
   return Subscriber

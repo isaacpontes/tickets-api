@@ -37,8 +37,8 @@ module.exports = function (sequelize, DataTypes) {
   const TicketRequest = sequelize.define("TicketRequest", attributes)
 
   TicketRequest.associate = function (models) {
-    TicketRequest.belongsTo(models.Board)
-    TicketRequest.belongsTo(models.Subscriber)
+    TicketRequest.belongsTo(models.Board, { as: "board" })
+    TicketRequest.belongsTo(models.Subscriber, { as: "subscriber" })
   }
 
   return TicketRequest

@@ -14,10 +14,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false
     },
-    first_ticket: {
+    firstTicket: {
       type: DataTypes.STRING,
     },
-    last_ticket: {
+    lastTicket: {
       type: DataTypes.STRING
     },
     observations: {
@@ -37,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
   const Withdrawal = sequelize.define("Withdrawal", attributes)
 
   Withdrawal.associate = function (models) {
-    Withdrawal.belongsTo(models.Inventory)
+    Withdrawal.belongsTo(models.Inventory, { as: "inventory" })
   }
 
   return Withdrawal

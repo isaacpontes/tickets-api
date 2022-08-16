@@ -14,7 +14,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
-      locationId: {
+      location_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

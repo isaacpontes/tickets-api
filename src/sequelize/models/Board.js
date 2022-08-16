@@ -25,8 +25,8 @@ module.exports = function (sequelize, DataTypes) {
   const Board = sequelize.define("Board", attributes)
 
   Board.associate = function (models) {
-    Board.belongsTo(models.Location)
-    Board.hasMany(models.TicketRequest)
+    Board.belongsTo(models.Location, { as: "location" })
+    Board.hasMany(models.TicketRequest, { as: "ticketRequests" })
   }
 
   return Board

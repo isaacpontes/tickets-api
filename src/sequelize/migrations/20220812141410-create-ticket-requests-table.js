@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-      subscriberId: {
+      subscriber_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -26,7 +26,7 @@ module.exports = {
         },
         onDelete: "RESTRICT"
       },
-      boardId: {
+      board_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

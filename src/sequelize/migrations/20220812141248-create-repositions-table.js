@@ -20,7 +20,7 @@ module.exports = {
       observations: {
         type: Sequelize.STRING
       },
-      inventoryId: {
+      inventory_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
