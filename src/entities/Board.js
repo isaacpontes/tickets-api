@@ -14,4 +14,9 @@ module.exports = class Board {
     this.locationId = this.location === null ? locationId : location.id
     this.ticketRequests = ticketRequests || []
   }
+
+  addTicketRequest(ticketRequest) {
+    const TicketRequest = require("./TicketRequest")
+    this.ticketRequests.push(new TicketRequest(ticketRequest))
+  }
 }
