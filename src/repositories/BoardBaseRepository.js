@@ -14,4 +14,12 @@ module.exports = class BoardBaseRepository {
   async addTicketRequest(ticketRequest) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
+
+  async getRequestsByMonth(month, year) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
+
+  async getRequestsTicketsTotal(startDate, endDate) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
 }

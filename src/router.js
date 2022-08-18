@@ -2,6 +2,7 @@ const express = require('express');
 const boardsController = require('./controllers/boards-controller');
 const inventoriesController = require('./controllers/inventories-controller');
 const locationsController = require('./controllers/locations-controller');
+const reportsController = require('./controllers/reports-controller');
 const subscribersController = require('./controllers/subscribers-controller');
 
 const router = express.Router()
@@ -22,5 +23,7 @@ router.post("/boards/:id/add-request", boardsController.addRequest)
 
 router.get("/subscribers", subscribersController.index)
 router.post("/subscribers", subscribersController.store)
+
+router.get("/reports/general/monthly", reportsController.monthly)
 
 module.exports = router

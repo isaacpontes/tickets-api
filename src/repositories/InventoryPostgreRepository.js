@@ -3,7 +3,11 @@ const InventoryBaseRepository = require("./InventoryBaseRepository")
 
 module.exports = class InventoryPostgreRepository extends InventoryBaseRepository {
   async getAll() {
-    const rows = await sequelize.model("Inventory").findAll({ include: "location", order: [["id", "ASC"]] })
+    const rows = await sequelize.model("Inventory").findAll({
+      attributes: ["id", "tickets"],
+      include: { association: "location", attributes: ["id", "name"] },
+      order: [["id", "ASC"]]
+    })
     return rows
   }
 
@@ -76,6 +80,60 @@ module.exports = class InventoryPostgreRepository extends InventoryBaseRepositor
       await board.save({ transaction: t })
       // Commit
       return withdrawal
+    })
+    return result
+  }
+
+  async getRepositionsByMonth(month, year) {
+    const [repositions] = await sequelize.query(`
+      SELECT
+        r.id, r.quantity, r.date, r.observations, r.inventory_id AS "inventoryId"
+      FROM repositions AS r
+      WHERE EXTRACT(MONTH FROM r.date) = ? AND EXTRACT(YEAR FROM r.date) = ?
+      ORDER BY r.date DESC;
+    `, {
+      replacements: [month, year]
+    })
+    return repositions
+  }
+
+  async getWithdrawalsByMonth(month, year) {
+    const [withdrawals] = await sequelize.query(`
+      SELECT
+        w.id, w.quantity, w.date, w.first_ticket AS "firstTicket", w.last_ticket AS "lastTicket", w.observations, w.inventory_id AS "inventoryId"
+      FROM withdrawals AS w
+      WHERE EXTRACT(MONTH FROM w.date) = ? AND EXTRACT(YEAR FROM w.date) = ?
+      ORDER BY w.date DESC;
+    `, {
+      replacements: [month, year]
+    })
+    return withdrawals
+  }
+
+  async getRepositionsTicketsTotal(startDate, endDate) {
+    const formatedStartDate = startDate.toISOString()
+    const formatedEndDate = endDate.toISOString()
+    const [result] = await sequelize.query(`
+      SELECT inventories.id AS "inventoryId", SUM(repositions.quantity) AS "totalAdded"
+      FROM inventories LEFT JOIN repositions ON inventories.id = repositions.inventory_id
+      WHERE repositions.date >= ? AND repositions.date < ?
+      GROUP BY inventories.id;
+    `, {
+      replacements: [formatedStartDate, formatedEndDate]
+    })
+    return result
+  }
+
+  async getWithdrawalsTicketsTotal(startDate, endDate) {
+    const formatedStartDate = startDate.toISOString()
+    const formatedEndDate = endDate.toISOString()
+    const [result] = await sequelize.query(`
+      SELECT inventories.id AS "inventoryId", inventories.location_id AS "locationId", SUM(withdrawals.quantity) AS "totalWithdrawn"
+      FROM inventories LEFT JOIN withdrawals ON inventories.id = withdrawals.inventory_id
+      WHERE withdrawals.date >= ? AND withdrawals.date < ?
+      GROUP BY inventories.id;
+    `, {
+      replacements: [formatedStartDate, formatedEndDate]
     })
     return result
   }
