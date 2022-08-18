@@ -1,4 +1,6 @@
 const Location = require("./Location")
+const Reposition = require("./Reposition")
+const Withdrawal = require("./Withdrawal")
 
 module.exports = class Inventory {
   constructor({ id, tickets, locationId, location, withdrawals, repositions }) {
@@ -14,5 +16,13 @@ module.exports = class Inventory {
     this.locationId = this.location === null ? locationId : location.id
     this.withdrawals = withdrawals || []
     this.repositions = repositions || []
+  }
+
+  addReposition(reposition) {
+    this.repositions.push(new Reposition(reposition))
+  }
+
+  addWithdrawal(withdrawal) {
+    this.withdrawals.push(new Withdrawal(withdrawal))
   }
 }
