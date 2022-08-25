@@ -1,6 +1,7 @@
 const SubscriberPostgreRepository = require("../repositories/SubscriberPostgreRepository")
 const CreateSubscriber = require("../services/CreateSubscriber")
 const GetSubscribers = require("../services/GetSubscribers")
+const UpdateSubscriber = require("../services/UpdateSubscriber")
 
 module.exports = {
   async index(req, res) {
@@ -20,6 +21,17 @@ module.exports = {
       const createSubscriber = new CreateSubscriber(subscriberPostgreRepository)
       const subscriber = await createSubscriber.execute(req.body)
       return res.status(201).json(subscriber)
+    } catch (err) {
+      return res.status(400).json({ message: err.message })
+    }
+  },
+
+  async update(req, res) {
+    try {
+      const subscriberPostgreRepository = new SubscriberPostgreRepository()
+      const updateSubscriber = new UpdateSubscriber(subscriberPostgreRepository)
+      await updateSubscriber.execute(req.params.id, req.body)
+      return res.status(204).end()
     } catch (err) {
       return res.status(400).json({ message: err.message })
     }

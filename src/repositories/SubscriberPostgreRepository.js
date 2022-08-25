@@ -11,4 +11,18 @@ module.exports = class SubscriberPostgreRepository extends SubscriberBaseReposit
     const row = await sequelize.model("Subscriber").create(subscriber)
     return row
   }
+
+  async update(subscriber) {
+    await sequelize.model("Subscriber").update({
+      name: subscriber.name,
+      birthday: subscriber.birthday,
+      document: subscriber.document,
+      isUpdated: subscriber.isUpdated,
+      locationId: subscriber.locationId
+    }, {
+      where: {
+        id: subscriber.id
+      }
+    })
+  }
 }

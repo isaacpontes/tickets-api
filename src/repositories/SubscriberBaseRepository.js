@@ -6,4 +6,8 @@ module.exports = class SubscriberBaseRepository {
   async store(subscriber) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
+
+  async update(subscriber) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
 }
