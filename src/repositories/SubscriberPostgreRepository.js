@@ -7,6 +7,15 @@ module.exports = class SubscriberPostgreRepository extends SubscriberBaseReposit
     return row
   }
 
+  async getByLocation(locationId) {
+    const rows = await sequelize.model("Subscriber").findAll({
+      include: "location",
+      order: [["name", "ASC"]],
+      where: { locationId }
+    })
+    return rows
+  }
+
   async store(subscriber) {
     const row = await sequelize.model("Subscriber").create(subscriber)
     return row
@@ -24,5 +33,9 @@ module.exports = class SubscriberPostgreRepository extends SubscriberBaseReposit
         id: subscriber.id
       }
     })
+  }
+
+  async delete(subscriberId) {
+    await sequelize.model("Subscriber").destroy({ where: { id: subscriberId } })
   }
 }

@@ -24,6 +24,7 @@ router.post("/boards/:id/add-request", boardsController.addRequest)
 router.get("/subscribers", subscribersController.index)
 router.post("/subscribers", subscribersController.store)
 router.put("/subscribers/:id", subscribersController.update)
+router.delete("/subscribers/:id", subscribersController.delete)
 
 router.get("/reports/general/monthly", reportsController.monthly)
 
