@@ -1,4 +1,5 @@
 const BoardPostgreRepository = require("../repositories/BoardPostgreRepository")
+const SubscriberPostgreRepository = require("../repositories/SubscriberPostgreRepository")
 const AddTicketRequest = require("../services/AddTicketRequest")
 const CreateBoard = require("../services/CreateBoard")
 const GetBoards = require("../services/GetBoards")
@@ -31,7 +32,8 @@ module.exports = {
       const { id: boardId } = req.params
       const { quantity, date, subscriberId } = req.body
       const boardPostgreRepository = new BoardPostgreRepository()
-      const addTicketRequest = new AddTicketRequest(boardPostgreRepository)
+      const subscriberPostgreRepository = new SubscriberPostgreRepository()
+      const addTicketRequest = new AddTicketRequest(boardPostgreRepository, subscriberPostgreRepository)
       const ticketRequest = await addTicketRequest.execute({ quantity, date, boardId, subscriberId })
       return res.status(201).json(ticketRequest)
     } catch (err) {

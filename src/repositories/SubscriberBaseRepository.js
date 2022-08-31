@@ -3,6 +3,10 @@ module.exports = class SubscriberBaseRepository {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 
+  async getById(id) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
+
   async getByLocation(locationId) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }

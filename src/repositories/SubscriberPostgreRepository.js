@@ -7,6 +7,11 @@ module.exports = class SubscriberPostgreRepository extends SubscriberBaseReposit
     return row
   }
 
+  async getById(id) {
+    const row = await sequelize.model("Subscriber").findByPk(id)
+    return row
+  }
+
   async getByLocation(locationId) {
     const rows = await sequelize.model("Subscriber").findAll({
       include: "location",

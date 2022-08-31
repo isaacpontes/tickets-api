@@ -7,6 +7,11 @@ module.exports = class BoardPostgreRepository extends BoardBaseRepository {
     return rows
   }
 
+  async getById(id) {
+    const row = await sequelize.model("Board").findByPk(id)
+    return row
+  }
+
   async getByLocationId(locationId) {
     const row = await sequelize.model("Board").findOne({ where: { locationId }, include: "location" })
     return row
