@@ -1,0 +1,29 @@
+version: '3'
+services:
+  api:
+    build: .
+    container_name: api
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - app
+    restart: unless-stopped
+  db:
+    image: postgres
+    container_name: database
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - app
+    volumes:
+      - data:/var/lib/postgresql/data
+networks:
+  app:
+    driver: bridge
+volumes:
+  data:
