@@ -5,9 +5,15 @@ module.exports = class GetSubscribers {
     this.subscriberRepository = subscriberRepository
   }
 
-  async execute() {
-    const rows = await this.subscriberRepository.getAll()
+  async execute(page = 1, limit = 20) {
+    const rows = await this.subscriberRepository.getAll(page, limit)
+    const total = await this.subscriberRepository.countAll()
     const subscribers = rows.map(row => new Subscriber(row))
-    return subscribers
+    return {
+      subscribers,
+      page,
+      limit,
+      total
+    }
   }
 }

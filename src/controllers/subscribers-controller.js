@@ -9,14 +9,14 @@ module.exports = {
   async index(req, res) {
     try {
       const subscriberPostgreRepository = new SubscriberPostgreRepository()
-      const { locationId } = req.query
+      const { locationId, page, limit } = req.query
       if (locationId) {
         const getSubscribersByLocation = new GetSubscribersByLocation(subscriberPostgreRepository)
-        const subscribers = await getSubscribersByLocation.execute(locationId)
+        const subscribers = await getSubscribersByLocation.execute(locationId, page, limit)
         return res.json(subscribers)
       }
       const getSubscribers = new GetSubscribers(subscriberPostgreRepository)
-      const subscribers = await getSubscribers.execute()
+      const subscribers = await getSubscribers.execute(page, limit)
       return res.json(subscribers)
     } catch (err) {
       return res.status(400).json({ message: err.message })

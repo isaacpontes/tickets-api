@@ -22,4 +22,12 @@ module.exports = class SubscriberBaseRepository {
   async delete(subscriber) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
+
+  async countAll() {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
+
+  async countByLocation(locationId) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
 }
