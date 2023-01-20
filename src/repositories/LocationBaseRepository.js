@@ -6,4 +6,8 @@ module.exports = class LocationBaseRepository {
   async store(location) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
+
+  async delete(id) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
 }

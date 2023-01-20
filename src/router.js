@@ -12,6 +12,7 @@ router.get("/hello", (req, res) => res.json({ hello: "Helo, world!" }))
 router.get("/locations", locationsController.index)
 router.get("/locations/:id/subscribers", subscribersController.searchByLocation)
 router.post("/locations", locationsController.store)
+router.delete("/locations/:id", locationsController.delete)
 
 router.get("/inventories", inventoriesController.index)
 router.post("/inventories", inventoriesController.store)

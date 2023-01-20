@@ -11,4 +11,17 @@ module.exports = class LocationPostgreRepository extends LocationBaseRepository 
     const row = await sequelize.model("Location").create(location)
     return row
   }
+
+  async delete(id) {
+    const tr = await sequelize.transaction()
+    try {
+      await sequelize.model("Board").destroy({ where: { locationId: id }, transaction: tr })
+      await sequelize.model("Inventory").destroy({ where: { locationId: id }, transaction: tr })
+      await sequelize.model("Location").destroy({ where: { id }, transaction: tr })
+      tr.commit()
+    } catch (err) {
+      await tr.rollback()
+      return err
+    }
+  }
 }
