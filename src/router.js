@@ -22,6 +22,7 @@ router.post("/boards", boardsController.store)
 router.post("/boards/:id/add-request", boardsController.addRequest)
 
 router.get("/subscribers", subscribersController.index)
+router.get("/subscribers/search", subscribersController.search)
 router.post("/subscribers", subscribersController.store)
 router.put("/subscribers/:id", subscribersController.update)
 router.delete("/subscribers/:id", subscribersController.delete)

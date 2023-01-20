@@ -3,6 +3,7 @@ const CreateSubscriber = require("../services/CreateSubscriber")
 const DeleteSubscriber = require("../services/DeleteSubscriber")
 const GetSubscribers = require("../services/GetSubscribers")
 const GetSubscribersByLocation = require("../services/GetSubscribersByLocation")
+const SearchSubscribersByName = require("../services/SearchSubscribersByName")
 const UpdateSubscriber = require("../services/UpdateSubscriber")
 
 module.exports = {
@@ -51,6 +52,18 @@ module.exports = {
       const deleteSubscriber = new DeleteSubscriber(subscriberPostgreRepository)
       await deleteSubscriber.execute(req.params.id)
       return res.status(204).end()
+    } catch (err) {
+      return res.status(400).json({ message: err.message })
+    }
+  },
+
+  async search(req, res) {
+    try {
+      const subscriberPostgreRepository = new SubscriberPostgreRepository()
+      const { name, page, limit } = req.query
+      const searchSubscriberByName = new SearchSubscribersByName(subscriberPostgreRepository)
+      const subscribers = await searchSubscriberByName.execute(name, page, limit)
+      return res.json(subscribers)
     } catch (err) {
       return res.status(400).json({ message: err.message })
     }

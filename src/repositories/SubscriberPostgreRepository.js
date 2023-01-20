@@ -1,3 +1,4 @@
+const { Op } = require("sequelize")
 const { sequelize } = require("../sequelize")
 const SubscriberBaseRepository = require("./SubscriberBaseRepository")
 
@@ -28,6 +29,21 @@ module.exports = class SubscriberPostgreRepository extends SubscriberBaseReposit
     return rows
   }
 
+  async searchByName(name, page, limit) {
+    const { count, rows } = await sequelize.model("Subscriber").findAndCountAll({
+      include: "location",
+      order: [["name", "ASC"]],
+      where: {
+        name: {
+          [Op.iLike]: `%${name}%`
+        }
+      },
+      offset: (page - 1) * limit,
+      limit: limit
+    })
+    return { count, rows }
+  }
+
   async store(subscriber) {
     const row = await sequelize.model("Subscriber").create(subscriber)
     return row
@@ -56,6 +72,6 @@ module.exports = class SubscriberPostgreRepository extends SubscriberBaseReposit
   }
 
   async countByLocation(locationId) {
-    return await sequelize.model("Subscriber").count({ where: { locationId }})
+    return await sequelize.model("Subscriber").count({ where: { locationId } })
   }
 }

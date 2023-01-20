@@ -1,5 +1,5 @@
 module.exports = class SubscriberBaseRepository {
-  async getAll() {
+  async getAll(page, limit) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 
@@ -7,7 +7,11 @@ module.exports = class SubscriberBaseRepository {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 
-  async getByLocation(locationId) {
+  async getByLocation(locationId, page, limit) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
+
+  async searchByName(name, page, limit) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 
