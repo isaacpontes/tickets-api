@@ -10,12 +10,7 @@ module.exports = {
   async index(req, res) {
     try {
       const subscriberPostgreRepository = new SubscriberPostgreRepository()
-      const { locationId, page, limit } = req.query
-      if (locationId) {
-        const getSubscribersByLocation = new GetSubscribersByLocation(subscriberPostgreRepository)
-        const subscribers = await getSubscribersByLocation.execute(locationId, page, limit)
-        return res.json(subscribers)
-      }
+      const { page, limit } = req.query
       const getSubscribers = new GetSubscribers(subscriberPostgreRepository)
       const subscribers = await getSubscribers.execute(page, limit)
       return res.json(subscribers)
@@ -63,6 +58,19 @@ module.exports = {
       const { name, page, limit } = req.query
       const searchSubscriberByName = new SearchSubscribersByName(subscriberPostgreRepository)
       const subscribers = await searchSubscriberByName.execute(name, page, limit)
+      return res.json(subscribers)
+    } catch (err) {
+      return res.status(400).json({ message: err.message })
+    }
+  },
+
+  async searchByLocation(req, res) {
+    try {
+      const subscriberPostgreRepository = new SubscriberPostgreRepository()
+      const { id } = req.params
+      const { page, limit } = req.query
+      const getSubscribersByLocation = new GetSubscribersByLocation(subscriberPostgreRepository)
+      const subscribers = await getSubscribersByLocation.execute(id, page, limit)
       return res.json(subscribers)
     } catch (err) {
       return res.status(400).json({ message: err.message })

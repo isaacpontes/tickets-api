@@ -10,6 +10,7 @@ const router = express.Router()
 router.get("/hello", (req, res) => res.json({ hello: "Helo, world!" }))
 
 router.get("/locations", locationsController.index)
+router.get("/locations/:id/subscribers", subscribersController.searchByLocation)
 router.post("/locations", locationsController.store)
 
 router.get("/inventories", inventoriesController.index)
