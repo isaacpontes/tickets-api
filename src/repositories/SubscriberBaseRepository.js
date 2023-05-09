@@ -11,7 +11,7 @@ module.exports = class SubscriberBaseRepository {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 
-  async searchByName(name, page, limit) {
+  async search(query, page, limit) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 

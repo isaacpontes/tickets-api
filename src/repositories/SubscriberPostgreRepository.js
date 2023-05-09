@@ -29,19 +29,29 @@ module.exports = class SubscriberPostgreRepository extends SubscriberBaseReposit
     return rows
   }
 
-  async searchByName(name, page, limit) {
-    const { count, rows } = await sequelize.model("Subscriber").findAndCountAll({
-      include: "location",
-      order: [["name", "ASC"]],
-      where: {
-        name: {
-          [Op.iLike]: `%${name}%`
-        }
-      },
-      offset: (page - 1) * limit,
-      limit: limit
-    })
-    return { count, rows }
+  async search({ name, locationId }, page, limit) {
+    if (locationId) {
+      const { count, rows } = await sequelize.model("Subscriber").findAndCountAll({
+        include: "location",
+        order: [["name", "ASC"]],
+        where: {
+          name: { [Op.iLike]: `%${name}%` },
+          locationId
+        },
+        offset: (page - 1) * limit,
+        limit: limit
+      })
+      return { count, rows }
+    } else {
+      const { count, rows } = await sequelize.model("Subscriber").findAndCountAll({
+        include: "location",
+        order: [["name", "ASC"]],
+        where: { name: { [Op.iLike]: `%${name}%` }, },
+        offset: (page - 1) * limit,
+        limit: limit
+      })
+      return { count, rows }
+    }
   }
 
   async store(subscriber) {

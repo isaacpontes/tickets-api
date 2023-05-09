@@ -3,7 +3,7 @@ const CreateSubscriber = require("../services/CreateSubscriber")
 const DeleteSubscriber = require("../services/DeleteSubscriber")
 const GetSubscribers = require("../services/GetSubscribers")
 const GetSubscribersByLocation = require("../services/GetSubscribersByLocation")
-const SearchSubscribersByName = require("../services/SearchSubscribersByName")
+const SearchSubscribers = require("../services/SearchSubscribers")
 const UpdateSubscriber = require("../services/UpdateSubscriber")
 
 module.exports = {
@@ -55,9 +55,9 @@ module.exports = {
   async search(req, res) {
     try {
       const subscriberPostgreRepository = new SubscriberPostgreRepository()
-      const { name, page, limit } = req.query
-      const searchSubscriberByName = new SearchSubscribersByName(subscriberPostgreRepository)
-      const subscribers = await searchSubscriberByName.execute(name, page, limit)
+      const { name, locationId, page, limit } = req.query
+      const searchSubscribers = new SearchSubscribers(subscriberPostgreRepository)
+      const subscribers = await searchSubscribers.execute({ name, locationId }, page, limit)
       return res.json(subscribers)
     } catch (err) {
       return res.status(400).json({ message: err.message })
