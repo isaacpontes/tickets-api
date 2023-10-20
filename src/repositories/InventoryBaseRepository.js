@@ -3,6 +3,10 @@ module.exports = class InventoryBaseRepository {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 
+  async getById(id) {
+    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
+  }
+
   async getByLocationId(locationId) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }

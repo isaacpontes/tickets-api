@@ -3,6 +3,7 @@ const AddReposition = require("../services/AddReposition")
 const AddWithdrawal = require("../services/AddWithdrawal")
 const CreateInventory = require("../services/CreateInventory")
 const GetInventories = require("../services/GetInventories")
+const GetInventoryById = require("../services/GetInventoryById")
 
 module.exports = {
   async index(req, res) {
@@ -22,6 +23,18 @@ module.exports = {
       const createInventory = new CreateInventory(inventoryPostgreRepository)
       const inventory = await createInventory.execute(req.body.locationId)
       return res.status(201).json(inventory)
+    } catch (err) {
+      return res.status(400).json({ message: err.message })
+    }
+  },
+
+  async show(req, res) {
+    try {
+      const { id } = req.params
+      const inventoryPostgreRepository = new InventoryPostgreRepository()
+      const getInventoryById = new GetInventoryById(inventoryPostgreRepository)
+      const inventory = await getInventoryById.execute(id)
+      return res.json(inventory)
     } catch (err) {
       return res.status(400).json({ message: err.message })
     }

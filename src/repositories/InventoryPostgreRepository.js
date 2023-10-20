@@ -1,3 +1,4 @@
+const Inventory = require("../entities/Inventory")
 const { sequelize } = require("../sequelize")
 const InventoryBaseRepository = require("./InventoryBaseRepository")
 
@@ -9,6 +10,13 @@ module.exports = class InventoryPostgreRepository extends InventoryBaseRepositor
       order: [["id", "ASC"]]
     })
     return rows
+  }
+
+  async getById(id) {
+    const row = await sequelize.model("Inventory").findByPk(id, {
+      include: ["location", "withdrawals", "repositions"]
+    })
+    return row ? new Inventory(row.get()) : null
   }
 
   async getByLocationId(locationId) {
