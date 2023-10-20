@@ -12,6 +12,10 @@ module.exports = class LocationPostgreRepository extends LocationBaseRepository 
     return row
   }
 
+  async update(id, name) {
+    await sequelize.model("Location").update({ name }, { where: { id }})
+  }
+
   async delete(id) {
     const tr = await sequelize.transaction()
     try {

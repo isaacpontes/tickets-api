@@ -4,6 +4,7 @@ const CreateLocation = require("../services/CreateLocation")
 const InventoryPostgreRepository = require("../repositories/InventoryPostgreRepository")
 const BoardPostgreRepository = require("../repositories/BoardPostgreRepository")
 const DeleteLocation = require("../services/DeleteLocation")
+const UpdateLocation = require("../services/UpdateLocation")
 
 module.exports = {
   async index(req, res) {
@@ -25,6 +26,20 @@ module.exports = {
       const createLocation = new CreateLocation(locationPostgreRepository, inventoryPostgreRepository, boardPostgreRepository)
       const result = await createLocation.execute(req.body.name)
       return res.status(201).json(result)
+    } catch (err) {
+      return res.status(400).json({ message: err.message })
+    }
+  },
+
+  async update(req, res) {
+    const { id } = req.params
+    const { name } = req.body
+    console.log(id, name)
+    const locationPostgreRepository = new LocationPostgreRepository()
+    const updateLocation = new UpdateLocation(locationPostgreRepository)
+    try {
+      await updateLocation.execute(id, name)
+      return res.status(204).end()
     } catch (err) {
       return res.status(400).json({ message: err.message })
     }
