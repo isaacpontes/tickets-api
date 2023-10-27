@@ -14,8 +14,8 @@ module.exports = class Inventory {
     this.tickets = tickets || 0
     this.location = location ? new Location(location) : null
     this.locationId = this.location === null ? locationId : location.id
-    this.withdrawals = withdrawals || []
-    this.repositions = repositions || []
+    this.withdrawals = withdrawals
+    this.repositions = repositions
   }
 
   addReposition(reposition) {

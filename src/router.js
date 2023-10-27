@@ -4,6 +4,7 @@ const inventoriesController = require('./controllers/inventories-controller');
 const locationsController = require('./controllers/locations-controller');
 const reportsController = require('./controllers/reports-controller');
 const subscribersController = require('./controllers/subscribers-controller');
+const withdrawalsController = require('./controllers/withdrawals-controller');
 
 const router = express.Router()
 
@@ -18,8 +19,11 @@ router.delete("/locations/:id", locationsController.delete)
 router.get("/inventories", inventoriesController.index)
 router.post("/inventories", inventoriesController.store)
 router.get("/inventories/:id", inventoriesController.show)
-router.post("/inventories/:id/withdraw", inventoriesController.withdraw)
 router.post("/inventories/:id/add-reposition", inventoriesController.addReposition)
+
+router.post("/withdrawals", withdrawalsController.save)
+router.put("/withdrawals/:id", withdrawalsController.update)
+router.delete("/withdrawals/:id", withdrawalsController.delete)
 
 router.get("/boards", boardsController.index)
 router.post("/boards", boardsController.store)

@@ -32,12 +32,22 @@ module.exports = function (sequelize, DataTypes) {
       },
       onDelete: "RESTRICT"
     },
+    boardId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "boards",
+        key: "id"
+      },
+      onDelete: "RESTRICT"
+    },
   }
 
   const Withdrawal = sequelize.define("Withdrawal", attributes)
 
   Withdrawal.associate = function (models) {
     Withdrawal.belongsTo(models.Inventory, { as: "inventory" })
+    Withdrawal.belongsTo(models.Board, { as: "board" })
   }
 
   return Withdrawal

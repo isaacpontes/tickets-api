@@ -19,10 +19,6 @@ module.exports = class InventoryBaseRepository {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }
 
-  async withdrawTickets(withdrawal) {
-    throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
-  }
-
   async getRepositionsByMonth(month, year) {
     throw new Error("ERR_METHOD_NOT_IMPLEMENTED")
   }

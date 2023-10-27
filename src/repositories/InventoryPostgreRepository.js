@@ -1,3 +1,4 @@
+const Board = require("../entities/Board")
 const Inventory = require("../entities/Inventory")
 const { sequelize } = require("../sequelize")
 const InventoryBaseRepository = require("./InventoryBaseRepository")
@@ -21,7 +22,16 @@ module.exports = class InventoryPostgreRepository extends InventoryBaseRepositor
 
   async getByLocationId(locationId) {
     const row = await sequelize.model("Inventory").findOne({ where: { locationId }, include: "location" })
-    return row
+    return row ? new Inventory(row.get()) : null
+  }
+
+  async getBoardFromSameLocation(inventoryId) {
+    const inventory = await sequelize.model("Inventory").findByPk(inventoryId)
+    const row = await sequelize.model("Board").findOne({
+      where: { locationId: inventory.locationId },
+      include: "location"
+    })
+    return row ? new Board(row.get()) : null
   }
 
   async store(inventory) {
@@ -51,43 +61,6 @@ module.exports = class InventoryPostgreRepository extends InventoryBaseRepositor
       await inventory.save({ transaction: t })
       // Commit
       return reposition
-    })
-    return result
-  }
-
-  async withdrawTickets(withdrawal) {
-    // Extract attributes for closure
-    const { quantity, date, firstTicket, lastTicket, observations, inventoryId } = withdrawal
-    // Start transaction
-    const result = await sequelize.transaction(async function (t) {
-      // Get inventory if exists
-      const inventory = await sequelize.model("Inventory").findByPk(inventoryId, { transaction: t })
-      if (inventory === null) {
-        throw new Error("Inventory not found.")
-      }
-      // Get board from same location if exists
-      const board = await sequelize.model("Board").findOne({
-        where: { locationId: inventory.locationId },
-        transaction: t
-      })
-      if (board === null) {
-        throw new Error("Board not found for this location.")
-      }
-      // Check if there are enough tickets on inventory before persisting it
-      if (quantity > inventory.tickets) {
-        throw new Error("Not enough tickets on inventory.")
-      }
-      // Persist withdrawal
-      const withdrawal = await sequelize.model("Withdrawal").create({
-        quantity, date, firstTicket, lastTicket, observations, inventoryId
-      }, { transaction: t })
-      // Update the tickets on inventory and board and persist them
-      inventory.tickets -= withdrawal.quantity
-      board.tickets += withdrawal.quantity
-      await inventory.save({ transaction: t })
-      await board.save({ transaction: t })
-      // Commit
-      return withdrawal
     })
     return result
   }
